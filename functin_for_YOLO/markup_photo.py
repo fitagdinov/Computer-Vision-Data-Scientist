@@ -17,7 +17,6 @@ def markup_photo(markup_path,photo_path,directory,color=(0,255,0),thickness=2):
     # new_image=cv.resize(new_image,(1024, 768)) # need for scale
     name=os.path.basename(photo_path)
     data=np.loadtxt(markup_path)
-    print(data.shape)
     x_mid=data[:,1]
     y_mid=data[:,2]
     width=data[:,3]
@@ -29,6 +28,8 @@ def markup_photo(markup_path,photo_path,directory,color=(0,255,0),thickness=2):
     y_rd=y_mid - height/2.0 
     for i in range(len(data)):
         if width[i]!=0 and height[i]!=0:
-            print(x_lu[i],y_lu[i],x_rd[i],y_rd[i])
             cv.rectangle(new_image,(int(x_lu[i]),int(y_lu[i])),(int(x_rd[i]),int(y_rd[i])),color,thickness) 
     cv.imwrite(directory+'/'+name,new_image)
+markup_photo("C:/Users/USER/ML/Computer-Vision-Data-Scientist/functin_for_YOLO/jolo.txt",
+             "C:/Users/USER/ML/Computer-Vision-Data-Scientist/functin_for_YOLO/tensorflow-yolov4-tflite/data/images/figurs.jpg",
+             "C:/Users/USER/ML/Computer-Vision-Data-Scientist/functin_for_YOLO")
