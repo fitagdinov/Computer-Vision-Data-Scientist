@@ -30,6 +30,3 @@ def markup_photo(markup_path,photo_path,directory,color=(0,255,0),thickness=2):
         if width[i]!=0 and height[i]!=0:
             cv.rectangle(new_image,(int(x_lu[i]),int(y_lu[i])),(int(x_rd[i]),int(y_rd[i])),color,thickness) 
     cv.imwrite(directory+'/'+name,new_image)
-markup_photo("C:/Users/USER/ML/Computer-Vision-Data-Scientist/functin_for_YOLO/jolo.txt",
-             "C:/Users/USER/ML/Computer-Vision-Data-Scientist/functin_for_YOLO/tensorflow-yolov4-tflite/data/images/figurs.jpg",
-             "C:/Users/USER/ML/Computer-Vision-Data-Scientist/functin_for_YOLO")
