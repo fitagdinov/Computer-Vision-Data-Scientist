@@ -10,6 +10,7 @@ def mask_to_yolo(image,Class,file):
     #fiel- путь до файла для записи jolo.txt
     import numpy as np
     import cv2 as cv   
+    im=cv.imread(image)
     contours, hierarchy = cv.findContours(im,cv.RETR_LIST ,cv.CHAIN_APPROX_SIMPLE)
     array=[]
     for con in contours:
