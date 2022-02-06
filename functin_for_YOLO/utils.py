@@ -196,3 +196,41 @@ def random_augmentation(list_photo,list_file,list_augmentation,directory,list_pa
             random_y=random.uniform([min_param[1],max_param[1]])
             param=(random_x,random_y)
         augmentation(photo, file, directory, rand_aug, param)
+        
+        
+def xml_to_yolo(File,directory,name_Clsses_file="Classes.json" ):
+    # File- путь до файла с рамширением xml "C:\Users\USER\Downloads\ex.xml"
+    # directory - папка для сохранения jolo.txt
+    # небходимо установить xml
+    # name_Clsses_file - имя под которым сохранить словарь с классами в формате json
+    import xml.etree.ElementTree as T
+    import numpy as np
+    from pathlib import Path
+    import json
+    name_file=Path(File).stem
+    tree=T.parse(File)
+    root=tree.getroot()
+    num= len(root) # number of measurements
+    data=np.zeros((num,5))
+    Classes={} # list for save Class
+    new_index=0 # this used for value new class
+    for i in range(num):
+        d=list((root[i][2][0][0].attrib.values())) # box info for line
+        # format: 'Left', 'Top', 'Right', 'Bottom'
+        Class=root[i][2][0].attrib.get("Name") # class for line
+        if not(Class in Classes):
+            Classes[Class]=new_index
+            new_index+=1
+        index=Classes[Class]
+        d=list(map(int,d)) # convert values in int type
+        d=np.array(d)
+        x_mid=round((d[0]+d[2])/2)
+        y_mid=round((d[1]+d[3])/2)
+        width=(d[2]-d[0])
+        height=(d[3]-d[1])
+        data[i]=np.array([index,x_mid,y_mid,width,height])
+    np.savetxt(directory+'/'+name_file+'.txt',data)
+    with open(directory+'/'+name_Clsses_file,'w') as file:
+        J=json.dumps(Classes)# conver dict in json
+        file.write(J)
+    return    
